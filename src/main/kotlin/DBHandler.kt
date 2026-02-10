@@ -75,7 +75,7 @@ suspend fun DeleteJob(Job: JobDTO){}
 suspend fun DeleteJob(Job: List<JobDTO>){}
 
 fun connect(): MongoClient {
-    val dbURI = "mongodb+srv://cstarks2606_db_user:5098S6F8I8eFopfX@jobtrackercluster.e3gqvul.mongodb.net/?appName=JobTrackerCluster"
+    val dbURI = "<insert connection string here>"
 
     val serverApi = ServerApi.builder().version(ServerApiVersion.V1).build()
     val mongoClientSettings = MongoClientSettings.builder().applyConnectionString(ConnectionString(dbURI)).serverApi(serverApi).build()
