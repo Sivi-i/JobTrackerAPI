@@ -5,59 +5,62 @@ import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.codecs.pojo.annotations.BsonProperty
 import org.bson.types.ObjectId
 import java.util.Date
-import java.text.SimpleDateFormat
-import com.example.models.Job
+import com.mongodb.client.model.Updates
+import org.bson.conversions.Bson
 
 
 data class JobUpdateDTO(
-    @BsonId val _id: ObjectId? = null,
+    @BsonId val _id: ObjectId,
 
     @BsonProperty("CompanyName")
-    var companyName: String?,
+    var companyName: String? = null,
 
     @BsonProperty("Applied")
-    var applied: Status?,
+    var applied: Status? = null,
 
     @BsonProperty("Response")
-    var response: Status?,
+    var response: Status? = null,
 
     @BsonProperty("Interview")
-    var interview: Status?,
+    var interview: Status? = null,
 
     @BsonProperty("Date Applied")
-    var dateApplied: Date?,
+    var dateApplied: Date? = null,
 
     @BsonProperty("Position")
-    var position: String?,
+    var position: String? = null,
 
     @BsonProperty("Notes")
-    var notes: String?,
+    var notes: String? = null,
 
     @BsonProperty("LearnForRole")
-    var learnForRole: String?,
-){
-    constructor(jobUpdate: JobUpdate ): this(
-        _id = ObjectId(jobUpdate.id),
-        companyName = jobUpdate.companyName,
-        applied = jobUpdate.applied,
-        response = jobUpdate.response,
-        interview = jobUpdate.interview,
-        dateApplied = dateFormat.parse(jobUpdate.dateApplied),
-        position = jobUpdate.position,
-        notes = jobUpdate.notes,
-        learnForRole = jobUpdate.learnForRole,
-    )
-}
+    var learnForRole: String? = null,
+)
 
 @Serializable
-data class JobUpdate(
-    val id: String? = null,
-    val companyName: String?,
-    val applied: Status?,
-    val response: Status?,
-    val interview: Status?,
-    val dateApplied: String?,
-    val position: String?,
-    val notes: String?,
-    var learnForRole: String?,
+data class PartialJobObject(
+    val id: String,
+    val companyName: String? = null,
+    val applied: Status? = null,
+    val response: Status? = null,
+    val interview: Status? = null,
+    val dateApplied: String? = null,
+    val position: String? = null,
+    val notes: String? = null,
+    var learnForRole: String? = null,
 )
+
+fun PartialJobObject.toBsonUpdate(): Bson? {
+    val updates = mutableListOf<Bson>()
+
+    companyName?.let { updates += Updates.set("CompanyName", it) }
+    applied?.let { updates += Updates.set("Applied", it) }
+    response?.let { updates += Updates.set("Response", it) }
+    interview?.let { updates += Updates.set("Interview", it) }
+    dateApplied?.let { updates += Updates.set("Date Applied", dateFormat.parse(it)) }
+    position?.let { updates += Updates.set("Position", it) }
+    notes?.let { updates += Updates.set("Notes", it) }
+    learnForRole?.let { updates += Updates.set("LearnForRole", it) }
+
+    return if (updates.isEmpty()) null else Updates.combine(updates)
+}

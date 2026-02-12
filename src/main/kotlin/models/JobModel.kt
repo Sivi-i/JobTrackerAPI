@@ -46,17 +46,6 @@ data class JobDTO(
         notes = job.notes,
         learnForRole = job.learnForRole,
     )
-
-    constructor(jobUpdateDTO: JobUpdateDTO) : this(
-        companyName = jobUpdateDTO.companyName as String,
-        applied = jobUpdateDTO.applied as Status,
-        response = jobUpdateDTO.response as Status,
-        interview = jobUpdateDTO.interview as Status,
-        dateApplied = jobUpdateDTO.dateApplied as Date,
-        position = jobUpdateDTO.position as String,
-        notes = jobUpdateDTO.notes as String,
-        learnForRole = jobUpdateDTO.learnForRole as String,
-    )
 }
 
 @Serializable

@@ -11,11 +11,16 @@ group = "com.example"
 version = "0.0.1"
 
 application {
+    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=true")
     mainClass = "io.ktor.server.netty.EngineMain"
 }
 
 kotlin {
     jvmToolchain(21)
+}
+
+ktor {
+    development = true
 }
 
 dependencies {

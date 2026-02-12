@@ -6,13 +6,9 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import com.example.models.JobDTO
 import com.example.models.Job
-import com.example.models.JobUpdate
-import com.example.models.JobUpdateDTO
+import com.example.models.PartialJobObject
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.request.receive
-import com.example.getJobs
-import com.example.createJob
-import com.example.UpdateJob
 
 fun Application.configureRouting() {
     routing {
@@ -37,8 +33,8 @@ fun Application.configureRouting() {
 
         put("/updateJobs"){
             try{
-                val task = call.receive<List<JobUpdate>>()
-                UpdateJob(task)
+                val task = call.receive<List<PartialJobObject>>()
+                updateJob(task)
                 call.respondText("Job(s) Updated!")
             }catch(e: Exception){
                 call.respondText("Job Update Failed!: ${e.message}", status = HttpStatusCode.BadRequest)
@@ -46,6 +42,13 @@ fun Application.configureRouting() {
         }
 
         delete("deleteJobs"){
+            try{
+                val task = call.receive<List<PartialJobObject>>()
+                deleteJob(task)
+                call.respond("Job(s) deleted!")
+            }catch(e: Exception){
+                call.respondText("Job Deletion Failed!: ${e.message}", status = HttpStatusCode.BadRequest)
+            }
             call.respondText("Delete Jobs Endpoint")
         }
 
