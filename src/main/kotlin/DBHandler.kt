@@ -75,7 +75,7 @@ suspend fun deleteJob(jobs: List<PartialJobObject>){
 }
 
 fun connect(): DbConnection {
-    val dbURI = "<insert connection string here>"
+    val dbURI = "mongodb+srv://cstarks2606_db_user:5098S6F8I8eFopfX@jobtrackercluster.e3gqvul.mongodb.net/?appName=JobTrackerCluster"
 
     val serverApi = ServerApi.builder().version(ServerApiVersion.V1).build()
     val mongoClientSettings = MongoClientSettings.builder().applyConnectionString(ConnectionString(dbURI)).serverApi(serverApi).build()

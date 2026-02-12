@@ -12,10 +12,6 @@ import io.ktor.server.request.receive
 
 fun Application.configureRouting() {
     routing {
-        get("/") {
-            call.respondText("Hello World!")
-        }
-
         post("/createJobs"){
             try{
                 val task = call.receive<List<Job>>()
@@ -27,7 +23,7 @@ fun Application.configureRouting() {
         }
 
         get("/getJobs"){
-              val currentJobs = getCurrentJobs();
+              val currentJobs = getJobs();
               call.respond("Current Jobs: $currentJobs")
         }
 
@@ -51,10 +47,5 @@ fun Application.configureRouting() {
             }
             call.respondText("Delete Jobs Endpoint")
         }
-
     }
-}
-
-suspend fun getCurrentJobs(): List<JobDTO>  {
-    return getJobs();
 }
