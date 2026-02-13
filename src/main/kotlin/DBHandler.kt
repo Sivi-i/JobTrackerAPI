@@ -69,6 +69,7 @@ suspend fun deleteJob(jobs: List<PartialJobObject>){
         val jobIds = jobs.map { ObjectId(it.id)}
         val filter = Filters.`in`("_id", jobIds)
         mongoConnection.collection.deleteMany(filter)
+        mongoConnection.mongoClient.close()
     }catch(e:Exception){
         println("Error: ${e.localizedMessage}")
     }
